@@ -37,7 +37,12 @@ function modifyRandomRange(min, max) {
 console.log(modifyRandomRange(0.2, 0.7));
 
 if (hueSelection) {
-  colorSelection = Color(colorSelection.mix(Color(hueSelection)));
+  // using a try here in case the user enters "pizza" or something else as color
+  try {
+    colorSelection = Color(colorSelection.mix(Color(hueSelection)));
+  }
+  catch (Error){
+  }
 }
 console.log('Color after hue: ' + colorSelection);
 
