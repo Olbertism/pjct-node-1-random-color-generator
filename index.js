@@ -1,12 +1,16 @@
+import chalk from 'chalk';
+
 const args = process.argv;
 console.log(args);
-let colorInput = '';
+let colorSelection = '';
 
 if (args.length > 2) {
-  colorInput = args[2];
+  colorSelection = args[2];
+} else {
+  colorSelection = Math.floor(Math.random()*16777215).toString(16);
 }
 
-console.log(colorInput);
+console.log(colorSelection);
 
 // use loop for block creation
 
@@ -16,13 +20,17 @@ let logstring = '';
 
 for (let i = 0; i < height; i++) {
   for (let j = 0; j < width; j++) {
-    if (i > 2 && j > 4 && i < 6 && j < 26) {
+    if (i === 4 && j === 12) {
+      logstring = logstring + '#' + colorSelection;
+      j += 6;
+
+    } else if (i > 2 && j > 4 && i < 6 && j < 26) {
       logstring = logstring + ' ';
     } else {
       logstring = logstring + '#';
     }
   }
 
-  console.log(logstring);
+  console.log(chalk.hex('#' + colorSelection)(logstring));
   logstring = '';
 }
