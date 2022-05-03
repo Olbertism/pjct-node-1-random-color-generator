@@ -90,7 +90,12 @@ function getUserInput() {
   });
 
   prompt.question(`Please enter a hex color: `, (aColor) => {
-    console.log(`You entered ${aColor}!`);
+    if (aColor.length !== 7 && aColor[0] !== '#') {
+      console.log('invalid color, defaulting to grey');
+      aColor = '#fefefe';
+    } else {
+      console.log(`You entered ${aColor}!`);
+    }
     setFinalColor(aColor);
     drawOutput(height, width);
     prompt.close();
