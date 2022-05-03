@@ -8,7 +8,7 @@ const width = 31;
 const height = 9;
 let logstring = '';
 
-let hueSelection = '';
+let hueSelection = 'ask';
 let luminositySelection = '';
 let finalColor = '';
 
