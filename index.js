@@ -1,10 +1,16 @@
 import chalk from 'chalk';
 import Color from 'color';
+import * as readline from 'node:readline';
 
 const args = process.argv;
 
+const width = 31;
+const height = 9;
+let logstring = '';
+
 let hueSelection = '';
 let luminositySelection = '';
+let finalColor = '';
 
 if (args.length > 2) {
   hueSelection = args[2];
@@ -26,7 +32,9 @@ function generateRandomColorHex() {
 
 let colorSelection = Color(generateRandomColorHex());
 
-console.log('Raw random color: ' + colorSelection);
+if (hueSelection === 'ask') {
+  getUserInput();
+}
 
 // modify color if necessary
 
@@ -34,15 +42,44 @@ function modifyRandomRange(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-console.log(modifyRandomRange(0.2, 0.7));
+function setFinalColor(colorValue) {
+  finalColor = Color(colorValue).hex();
+}
 
-if (hueSelection) {
+function handleColorChanges() {
+  if (hueSelection) {
+    // using a try here in case the user enters "pizza" or something else as color
+    try {
+      colorSelection = Color(colorSelection.mix(Color(hueSelection)));
+    } catch (Error) {}
+  }
+
+  if (luminositySelection) {
+    if (luminositySelection === 'dark') {
+      colorSelection = Color(
+        colorSelection.darken(modifyRandomRange(0.1, 0.7)),
+      );
+    } else if (luminositySelection === 'light') {
+      colorSelection = Color(
+        colorSelection.lighten(modifyRandomRange(0.1, 0.7)),
+      );
+    }
+  }
+
+  setFinalColor(colorSelection);
+}
+
+//colorSelection = handleColorChanges();
+
+/* if (hueSelection) {
+  if (hueSelection === 'ask') {
+    getUserInput();
+  }
   // using a try here in case the user enters "pizza" or something else as color
   try {
     colorSelection = Color(colorSelection.mix(Color(hueSelection)));
   } catch (Error) {}
 }
-console.log('Color after hue: ' + colorSelection);
 
 if (luminositySelection) {
   if (luminositySelection === 'dark') {
@@ -50,30 +87,43 @@ if (luminositySelection) {
   } else if (luminositySelection === 'light') {
     colorSelection = Color(colorSelection.lighten(modifyRandomRange(0.1, 0.7)));
   }
-}
-console.log('Color after luminosity: ' + colorSelection);
+} */
 
-const finalColor = colorSelection.hex();
-console.log('final color: ' + finalColor);
+//const finalColor = colorSelection.hex();
 
 // use loop for block creation
 
-const width = 31;
-const height = 9;
-let logstring = '';
-
-for (let i = 0; i < height; i++) {
-  for (let j = 0; j < width; j++) {
-    if (i === 4 && j === 12) {
-      logstring = logstring + finalColor;
-      j += 6;
-    } else if (i > 2 && j > 4 && i < 6 && j < 26) {
-      logstring = logstring + ' ';
-    } else {
-      logstring = logstring + '#';
+function drawOutput(height, width) {
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      if (i === 4 && j === 12) {
+        logstring = logstring + finalColor;
+        j += 6;
+      } else if (i > 2 && j > 4 && i < 6 && j < 26) {
+        logstring = logstring + ' ';
+      } else {
+        logstring = logstring + '#';
+      }
     }
-  }
 
-  console.log(chalk.hex(finalColor)(logstring));
-  logstring = '';
+    console.log(chalk.hex(finalColor)(logstring));
+    logstring = '';
+  }
 }
+
+function getUserInput() {
+  const prompt = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  prompt.question(`Please enter a hex color: `, (aColor) => {
+    console.log(`You entered ${aColor}!`);
+    setFinalColor(aColor);
+    drawOutput(height, width);
+    prompt.close();
+  });
+}
+
+handleColorChanges();
+drawOutput(height, width);
