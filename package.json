@@ -1,0 +1,12 @@
+{
+  "name": "pjct-node-1-random-color-generator",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "repository": "https://github.com/Olbertism/pjct-node-1-random-color-generator.git",
+  "author": "Albert Pichler <albertpichler@gmx.net>",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.0.1"
+  }
+}
