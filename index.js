@@ -40,9 +40,7 @@ if (hueSelection) {
   // using a try here in case the user enters "pizza" or something else as color
   try {
     colorSelection = Color(colorSelection.mix(Color(hueSelection)));
-  }
-  catch (Error){
-  }
+  } catch (Error) {}
 }
 console.log('Color after hue: ' + colorSelection);
 
