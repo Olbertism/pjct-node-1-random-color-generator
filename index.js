@@ -53,13 +53,13 @@ if (luminositySelection) {
 }
 console.log('Color after luminosity: ' + colorSelection);
 
-let finalColor = colorSelection.hex();
+const finalColor = colorSelection.hex();
 console.log('final color: ' + finalColor);
 
 // use loop for block creation
 
-let width = 31;
-let height = 9;
+const width = 31;
+const height = 9;
 let logstring = '';
 
 for (let i = 0; i < height; i++) {
