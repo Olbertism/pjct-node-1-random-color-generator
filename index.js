@@ -32,10 +32,6 @@ function generateRandomColorHex() {
 
 let colorSelection = Color(generateRandomColorHex());
 
-if (hueSelection === 'ask') {
-  getUserInput();
-}
-
 // modify color if necessary
 
 function modifyRandomRange(min, max) {
@@ -69,33 +65,9 @@ function handleColorChanges() {
   setFinalColor(colorSelection);
 }
 
-//colorSelection = handleColorChanges();
-
-/* if (hueSelection) {
-  if (hueSelection === 'ask') {
-    getUserInput();
-  }
-  // using a try here in case the user enters "pizza" or something else as color
-  try {
-    colorSelection = Color(colorSelection.mix(Color(hueSelection)));
-  } catch (Error) {}
-}
-
-if (luminositySelection) {
-  if (luminositySelection === 'dark') {
-    colorSelection = Color(colorSelection.darken(modifyRandomRange(0.1, 0.7)));
-  } else if (luminositySelection === 'light') {
-    colorSelection = Color(colorSelection.lighten(modifyRandomRange(0.1, 0.7)));
-  }
-} */
-
-//const finalColor = colorSelection.hex();
-
-// use loop for block creation
-
-function drawOutput(height, width) {
-  for (let i = 0; i < height; i++) {
-    for (let j = 0; j < width; j++) {
+function drawOutput(hashHeight, hashWidth) {
+  for (let i = 0; i < hashHeight; i++) {
+    for (let j = 0; j < hashWidth; j++) {
       if (i === 4 && j === 12) {
         logstring = logstring + finalColor;
         j += 6;
@@ -125,5 +97,8 @@ function getUserInput() {
   });
 }
 
+if (hueSelection === 'ask') {
+  getUserInput();
+}
 handleColorChanges();
 drawOutput(height, width);
